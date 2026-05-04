@@ -5,9 +5,9 @@ import { useMutation } from '@apollo/client';
 import { LOGIN_USER } from '../utils/mutations';
 import Auth from '../utils/auth';
 
-const LoginForm = () => {
+const LoginForm = ({ handleModalClose }) => {
   const [userFormData, setUserFormData] = useState({ email: '', password: '' });
-  const [validated] = useState(false);
+  const [validated, setValidated] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
 
   const [loginUser] = useMutation(LOGIN_USER);
@@ -22,17 +22,19 @@ const LoginForm = () => {
 
     // check if form has everything (as per react-bootstrap docs)
     const form = event.currentTarget;
+    setValidated(true);
     if (form.checkValidity() === false) {
-      event.preventDefault();
       event.stopPropagation();
+      return;
     }
 
     try {
       const { data } = await loginUser({
         variables: { email: userFormData.email, password: userFormData.password },
       });
-
       Auth.login(data.login.token);
+      handleModalClose?.();
+      setShowAlert(false);
     } catch (err) {
       console.error(err);
       setShowAlert(true);
