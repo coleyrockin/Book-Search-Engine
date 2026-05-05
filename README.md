@@ -1,78 +1,93 @@
 # Book Search Engine
 
-![React](https://img.shields.io/badge/React-18-61DAFB?style=flat&logo=react&logoColor=white)
+![React](https://img.shields.io/badge/React-19-61DAFB?style=flat&logo=react&logoColor=white)
+![Vite](https://img.shields.io/badge/Vite-8-646CFF?style=flat&logo=vite&logoColor=white)
 ![GraphQL](https://img.shields.io/badge/GraphQL-API-E10098?style=flat&logo=graphql&logoColor=white)
 ![Apollo](https://img.shields.io/badge/Apollo-Client%20%2F%20Server-311C87?style=flat&logo=apollographql&logoColor=white)
 ![MongoDB](https://img.shields.io/badge/MongoDB-Mongoose-47A248?style=flat&logo=mongodb&logoColor=white)
-![Express](https://img.shields.io/badge/Express-4-000?style=flat&logo=express&logoColor=white)
-![Node.js](https://img.shields.io/badge/Node.js-Server-339933?style=flat&logo=nodedotjs&logoColor=white)
+![Express](https://img.shields.io/badge/Express-5-000?style=flat&logo=express&logoColor=white)
 
-A full-stack Google Books search engine refactored from a RESTful API to a GraphQL API built with Apollo Server and Apollo Client. Users can search for books, create an account, and save their favorite titles.
+A full-stack Google Books search app built with React, Apollo GraphQL, Express, and MongoDB. Users can search Google Books, create an account, save favorite titles, and manage their saved library.
 
----
+## What Changed
 
-## About
-
-Originally built with a RESTful API, this application was refactored to use GraphQL with Apollo Server on the back end and Apollo Client on the front end. The app allows users to search the Google Books API, view results, sign up or log in, and save books to a personal list.
-
-## Features
-
-- **GraphQL API** — queries and mutations replace traditional REST endpoints
-- **Apollo Server** — Express.js middleware handling GraphQL schema, resolvers, and context
-- **Apollo Client** — React front end with in-memory cache and reactive queries
-- **JWT authentication** — secure sign-up and login with token-based auth
-- **Google Books API** — search millions of books by title, author, or keyword
-- **Save & manage books** — authenticated users can save and remove books from their list
-- **Responsive design** — mobile-friendly UI built with React Bootstrap
+- Modernized the client from Create React App to Vite.
+- Upgraded the runtime stack to React 19, Apollo Client 4, Apollo Server 5, Express 5, Mongoose 9, and JSON Web Token 9.
+- Removed the stale REST API surface so the server exposes the GraphQL API cleanly.
+- Hardened auth, JWT verification, password hashing, request size limits, security headers, and dependency audit posture.
+- Improved book result normalization, duplicate-save prevention, mutation cache updates, and localStorage resilience.
 
 ## Tech Stack
 
 | Category | Technologies |
-|----------|-------------|
-| **Frontend** | React 18, Apollo Client, React Bootstrap |
-| **Backend** | Node.js, Express.js, Apollo Server |
-| **API** | GraphQL (queries & mutations) |
-| **Database** | MongoDB, Mongoose ODM |
-| **Auth** | JSON Web Tokens (JWT), bcrypt |
-| **External API** | Google Books API |
-| **Dev Tools** | Concurrently, Nodemon |
+| --- | --- |
+| Frontend | React 19, Vite 8, React Router 7, React Bootstrap 2, Bootstrap 5 |
+| Backend | Node.js 20+, Express 5, Apollo Server 5 |
+| API | GraphQL |
+| Database | MongoDB, Mongoose 9 |
+| Auth | JWT, bcryptjs |
+| External API | Google Books API |
 
 ## Getting Started
 
 ```bash
-# Clone the repository
-git clone https://github.com/coleyrockin/Book-Search-Engine.git
-
-# Navigate to the project
-cd Book-Search-Engine
-
-# Install all dependencies (client + server)
 npm install
-
-# Start the development server
+cp .env.example .env
 npm run develop
 ```
 
-The client runs on `http://localhost:3000` and the server on `http://localhost:3001/graphql`.
+The client runs on `http://localhost:3000` and proxies GraphQL requests to `http://localhost:3001/graphql`.
+
+## Scripts
+
+```bash
+npm run develop     # Run client and server together
+npm run build       # Build the Vite client
+npm run start       # Run the production server
+npm run seed        # Seed a demo user and saved books when MongoDB is running
+npm test            # Run server and client unit tests
+npm run verify      # Run build, tests, and production audit
+npm run audit:prod  # Audit root, server, and client production dependencies
+```
+
+## Security Baseline
+
+- Production dependency audit: `0 vulnerabilities`
+- Server headers: Helmet, CSP, frame blocking, nosniff, no-referrer, and permissions policy
+- API controls: explicit CORS allowlist, bounded JSON request bodies, and GraphQL rate limiting
+- Auth controls: JWT algorithm pinning, short token expiration, stronger password hashing, and sessionStorage token persistence
+- Data controls: Mongoose filter sanitization, schema length limits, HTTPS-only external URL normalization, and duplicate book prevention
+
+See `security_best_practices_report.md` and `ROADMAP.md` for the audit and next build plan.
+
+## Environment
+
+```bash
+MONGODB_URI=mongodb://127.0.0.1:27017/googlebooks
+JWT_SECRET=change_me_to_a_long_random_value
+JWT_EXPIRATION=2h
+CLIENT_ORIGIN=http://localhost:3000
+PORT=3001
+RATE_LIMIT_WINDOW_MS=900000
+RATE_LIMIT_MAX=300
+```
 
 ## Project Structure
 
-```
+```text
 Book-Search-Engine/
-├── client/              # React front end
+├── client/
 │   ├── src/
-│   │   ├── components/  # UI components (SearchBooks, SavedBooks, LoginForm)
-│   │   ├── pages/       # Page-level views
-│   │   └── utils/       # Apollo queries, mutations, and auth helpers
-│   └── package.json
-├── server/              # Express + Apollo Server back end
-│   ├── models/          # Mongoose schemas (User, Book)
-│   ├── schemas/         # GraphQL typeDefs and resolvers
-│   ├── utils/           # JWT auth middleware
-│   └── server.js        # Express server entry point
-└── package.json         # Root scripts and dev dependencies
+│   │   ├── components/
+│   │   ├── pages/
+│   │   └── utils/
+│   ├── index.html
+│   └── vite.config.js
+├── server/
+│   ├── config/
+│   ├── models/
+│   ├── schemas/
+│   ├── utils/
+│   └── server.js
+└── package.json
 ```
-
----
-
-*Built with React, GraphQL, Apollo, and MongoDB.*

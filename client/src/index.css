@@ -1,5 +1,15 @@
+:root {
+  color: #172033;
+  background: #f6f7f2;
+  font-family:
+    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+}
+
 body {
-  font-family: 'Rubik', sans-serif;
+  min-width: 320px;
+  margin: 0;
+  background: #f6f7f2;
 }
 
 h1,
@@ -8,10 +18,105 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: 'Rubik Mono One', sans-serif;
+  margin: 0;
+  color: #111827;
+  font-weight: 750;
+  letter-spacing: 0;
+}
+
+.app-navbar {
+  border-bottom: 1px solid #d8ddd0;
+  box-shadow: 0 1px 0 rgba(17, 24, 39, 0.03);
+}
+
+.navbar-brand {
+  font-weight: 750;
+}
+
+.hero {
+  padding: 4rem 0 3.25rem;
+  color: #f8fafc;
+  background: #17372f;
+}
+
+.hero.compact {
+  padding: 3rem 0;
+}
+
+.hero h1 {
+  color: #f8fafc;
+  font-size: 3.5rem;
+}
+
+.page-section {
+  padding: 2.5rem 0 4rem;
+}
+
+.section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+}
+
+.section-heading h2 {
+  font-size: 1.35rem;
+}
+
+.book-card {
+  overflow: hidden;
+  border: 1px solid #d8ddd0;
+  border-radius: 8px;
+  background: #fffefa;
+  box-shadow: 0 10px 24px rgba(17, 24, 39, 0.06);
+}
+
+.book-card .card-img {
+  width: 100%;
+  height: 18rem;
+  object-fit: contain;
+  object-position: center;
+  border-radius: 0;
+  background: #eef0ea;
+}
+
+.book-card .card-title {
+  font-size: 1.1rem;
+}
+
+.book-card .card-text {
+  color: #4b5563;
 }
 
 .small {
-  font-weight: 300;
-  font-style: italic;
+  color: #677084;
+  font-weight: 500;
+}
+
+.loading-state,
+.not-found {
+  display: grid;
+  min-height: 60vh;
+  place-items: center;
+  gap: 1rem;
+  padding: 2rem;
+  text-align: center;
+}
+
+@media (max-width: 575.98px) {
+  .hero {
+    padding: 3rem 0 2.5rem;
+  }
+
+  .hero h1 {
+    font-size: 2.25rem;
+  }
+
+  .page-section {
+    padding-top: 1.75rem;
+  }
+
+  .book-card .card-img {
+    height: 15rem;
+  }
 }

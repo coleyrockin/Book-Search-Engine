@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Form, Button, Alert } from 'react-bootstrap';
-import { useMutation } from '@apollo/client';
+import { useMutation } from '@apollo/client/react';
 
 import { ADD_USER } from '../utils/mutations';
 import Auth from '../utils/auth';
@@ -30,8 +30,13 @@ const SignupForm = ({ handleModalClose }) => {
     }
 
     try {
+      const variables = {
+        username: userFormData.username.trim(),
+        email: userFormData.email.trim().toLowerCase(),
+        password: userFormData.password,
+      };
       const { data } = await addUser({
-        variables: { ...userFormData },
+        variables,
       });
 
       Auth.login(data.addUser.token);
@@ -58,12 +63,13 @@ const SignupForm = ({ handleModalClose }) => {
           Something went wrong with your signup!
         </Alert>
 
-        <Form.Group>
-          <Form.Label htmlFor='username'>Username</Form.Label>
+        <Form.Group controlId='signup-username' className='mb-3'>
+          <Form.Label>Username</Form.Label>
           <Form.Control
             type='text'
             placeholder='Your username'
             name='username'
+            autoComplete='username'
             onChange={handleInputChange}
             value={userFormData.username}
             required
@@ -71,12 +77,13 @@ const SignupForm = ({ handleModalClose }) => {
           <Form.Control.Feedback type='invalid'>Username is required!</Form.Control.Feedback>
         </Form.Group>
 
-        <Form.Group>
-          <Form.Label htmlFor='email'>Email</Form.Label>
+        <Form.Group controlId='signup-email' className='mb-3'>
+          <Form.Label>Email</Form.Label>
           <Form.Control
             type='email'
             placeholder='Your email address'
             name='email'
+            autoComplete='email'
             onChange={handleInputChange}
             value={userFormData.email}
             required
@@ -84,23 +91,27 @@ const SignupForm = ({ handleModalClose }) => {
           <Form.Control.Feedback type='invalid'>Email is required!</Form.Control.Feedback>
         </Form.Group>
 
-        <Form.Group>
-          <Form.Label htmlFor='password'>Password</Form.Label>
+        <Form.Group controlId='signup-password' className='mb-3'>
+          <Form.Label>Password</Form.Label>
           <Form.Control
             type='password'
             placeholder='Your password'
             name='password'
+            autoComplete='new-password'
             onChange={handleInputChange}
             value={userFormData.password}
+            minLength={8}
             required
           />
-          <Form.Control.Feedback type='invalid'>Password is required!</Form.Control.Feedback>
+          <Form.Control.Feedback type='invalid'>
+            Password must be at least 8 characters.
+          </Form.Control.Feedback>
         </Form.Group>
         <Button
           disabled={!(userFormData.username && userFormData.email && userFormData.password)}
           type='submit'
           variant='success'>
-          Submit
+          Create Account
         </Button>
       </Form>
     </>

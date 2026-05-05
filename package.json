@@ -1,19 +1,28 @@
 {
   "name": "googlebooks-app",
   "version": "1.0.0",
-  "description": "google books search website",
+  "description": "Full-stack Google Books search app with React, Apollo GraphQL, Express, and MongoDB",
+  "private": true,
   "main": "server/server.js",
   "scripts": {
-    "start": "node server/server.js",
-    "develop": "concurrently \"cd server && npm run watch\" \"cd client && npm start\"",
-    "install": "cd server && npm i && cd ../client && npm i",
-    "build": "cd client && npm run build"
+    "start": "npm --prefix server start",
+    "develop": "concurrently \"npm --prefix server run watch\" \"npm --prefix client start\"",
+    "postinstall": "npm run install:all",
+    "install:all": "npm install --prefix server && npm install --prefix client",
+    "build": "npm --prefix client run build",
+    "test": "npm --prefix server test && npm --prefix client test",
+    "seed": "npm --prefix server run seed",
+    "verify": "npm run build && npm run test && npm run audit:prod",
+    "audit:prod": "npm audit --omit=dev && npm --prefix server audit --omit=dev && npm --prefix client audit --omit=dev"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "engines": {
+    "node": ">=20"
+  },
   "devDependencies": {
-    "concurrently": "^7.4.0"
+    "concurrently": "^9.2.1"
   },
   "repository": {
     "type": "git",
