@@ -64,7 +64,7 @@ See `security_best_practices_report.md` and `ROADMAP.md` for the audit and next 
 
 ```bash
 MONGODB_URI=mongodb://127.0.0.1:27017/googlebooks
-JWT_SECRET=change_me_to_a_long_random_value
+JWT_SECRET=replace_with_at_least_32_random_characters
 JWT_EXPIRATION=2h
 CLIENT_ORIGIN=http://localhost:3000
 PORT=3001

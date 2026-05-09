@@ -42,8 +42,7 @@ const SignupForm = ({ handleModalClose }) => {
       Auth.login(data.addUser.token);
       handleModalClose?.();
       setShowAlert(false);
-    } catch (err) {
-      console.error(err);
+    } catch {
       setShowAlert(true);
     }
 

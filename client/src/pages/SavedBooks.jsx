@@ -50,8 +50,7 @@ const SavedBooks = () => {
       setDeleteError('');
       await removeBook({ variables: { bookId } });
       removeBookId(bookId);
-    } catch (err) {
-      console.error(err);
+    } catch {
       setDeleteError('That book could not be removed. Please refresh and try again.');
     } finally {
       setDeletingBookId('');

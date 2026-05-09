@@ -1,16 +1,27 @@
 const jwt = require('jsonwebtoken');
 
-const secret = process.env.JWT_SECRET || 'dev-only-change-me';
+const MIN_SECRET_LENGTH = 32;
+const configuredSecret = process.env.JWT_SECRET?.trim();
+
+if (!configuredSecret) {
+  throw new Error('JWT_SECRET must be set before starting the server.');
+}
+
+if (configuredSecret.length < MIN_SECRET_LENGTH) {
+  throw new Error(`JWT_SECRET must be at least ${MIN_SECRET_LENGTH} characters.`);
+}
+
+const secret = configuredSecret;
 const expiration = process.env.JWT_EXPIRATION || '2h';
 
 const getTokenFromRequest = (req) => {
-  const authHeader = req.headers.authorization || '';
+  const authHeader = req.headers?.authorization || '';
 
   if (authHeader.startsWith('Bearer ')) {
     return authHeader.slice(7).trim();
   }
 
-  return authHeader.trim() || req.body?.token || req.query?.token || '';
+  return '';
 };
 
 module.exports = {

@@ -90,8 +90,7 @@ const SearchBooks = () => {
       const { items = [] } = await response.json();
       setSearchedBooks(normalizeBookResults(items).filter((book) => book.bookId));
       setSearchInput('');
-    } catch (err) {
-      console.error(err);
+    } catch {
       setSearchError('The search service is unavailable right now. Please try again shortly.');
       setSearchedBooks([]);
     } finally {
@@ -110,8 +109,7 @@ const SearchBooks = () => {
       const { data } = await saveBook({ variables: { bookData: bookToSave } });
       const savedBooks = data?.saveBook?.savedBooks || [];
       setSavedBookIds(savedBooks.map((book) => book.bookId));
-    } catch (err) {
-      console.error(err);
+    } catch {
       setSearchError('That book could not be saved. Please refresh and try again.');
     }
   };

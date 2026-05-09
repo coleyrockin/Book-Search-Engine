@@ -6,16 +6,16 @@
   "dependencies": {
     "@apollo/client": "^4.1.9",
     "bootstrap": "^5.3.8",
-    "graphql": "^16.13.2",
+    "graphql": "^16.14.0",
     "jwt-decode": "^4.0.0",
-    "react": "^19.2.5",
+    "react": "^19.2.6",
     "react-bootstrap": "^2.10.10",
-    "react-dom": "^19.2.5",
+    "react-dom": "^19.2.6",
     "react-router-dom": "^7.15.0"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^6.0.1",
-    "vite": "^8.0.10"
+    "vite": "^8.0.11"
   },
   "scripts": {
     "start": "vite --host 0.0.0.0",

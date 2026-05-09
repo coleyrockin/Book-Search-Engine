@@ -70,6 +70,22 @@ Residual risk is now mostly architectural: browser-readable JWTs are still used,
 - Impact: Test tooling and security checks were brittle and could fail just by importing the module.
 - Fix: Exported `app`, `server`, and `startApolloServer`; connection occurs only during startup.
 
+### SEC-008: JWT signing secret had an unsafe fallback
+
+- Severity: Medium
+- Location: `server/utils/auth.js:3-15`
+- Evidence: The auth module now requires `JWT_SECRET` at startup and rejects secrets shorter than 32 characters.
+- Impact: A known fallback signing secret can allow token forgery if it ever reaches a deployed environment.
+- Fix: Removed the hard-coded fallback, documented the required secret length, and added startup validation tests.
+
+### SEC-009: Tokens could be accepted outside the Authorization header
+
+- Severity: Medium
+- Location: `server/utils/auth.js:16-24`
+- Evidence: The auth middleware now ignores JWTs placed in GraphQL request bodies or query strings and only accepts `Authorization: Bearer ...`.
+- Impact: Tokens in URLs or bodies are more likely to leak through logs, browser history, intermediary tooling, or copied requests.
+- Fix: Restricted token extraction to the Bearer authorization header and added regression tests.
+
 ## Remaining Risks / Roadmap Items
 
 ### RISK-001: Browser-readable JWTs remain
@@ -94,4 +110,4 @@ Residual risk is now mostly architectural: browser-readable JWTs are still used,
 - Location: infrastructure outside this repo
 - Evidence: TLS, process management, runtime secrets, DB backups, and edge headers are not represented here.
 - Impact: App code can be secure while deployment remains weak.
-- Recommended next fix: Add deployment docs/checks for TLS, `NODE_ENV=production`, `JWT_SECRET`, `MONGODB_URI`, and log handling.
+- Recommended next fix: Add deployment docs/checks for TLS, `NODE_ENV=production`, secret rotation, `MONGODB_URI`, and log handling.
